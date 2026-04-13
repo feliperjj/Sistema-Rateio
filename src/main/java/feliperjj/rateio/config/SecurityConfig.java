@@ -20,10 +20,11 @@ public class SecurityConfig {
                 
                 // 👇 AGORA COM EVENTOS E DESPESAS LIBERADOS 👇
                 .requestMatchers(
-                        "/api/users/register", 
-                        "/api/events", "/api/events/**",
-                        "/api/expenses", "/api/expenses/**" 
-                ).permitAll()
+        "/api/users/register", 
+        "/api/events", "/api/events/**",
+        "/api/expenses", "/api/expenses/**",
+        "/api/participants", "/api/participants/**" // 
+            ).permitAll() 
                 
                 .anyRequest().authenticated()
             );

@@ -12,4 +12,6 @@ public interface ParticipantRepository extends JpaRepository<Participant, UUID> 
     
     // Para verificar se um utilizador já está num evento
     Optional<Participant> findByEventIdAndUserId(UUID eventId, UUID userId);
+
+    boolean existsByEventIdAndUserId(UUID eventId, UUID userId);
 }
