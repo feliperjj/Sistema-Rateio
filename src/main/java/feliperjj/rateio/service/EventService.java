@@ -8,6 +8,8 @@ import feliperjj.rateio.repository.EventRepository;
 import feliperjj.rateio.repository.UserRepository;
 import org.springframework.stereotype.Service;
 
+import java.util.UUID;
+
 @Service
 public class EventService {
 
@@ -17,6 +19,19 @@ public class EventService {
     public EventService(EventRepository eventRepository, UserRepository userRepository) {
         this.eventRepository = eventRepository;
         this.userRepository = userRepository;
+    }
+
+    // Método novo para fechar o evento!
+    public void closeEvent(UUID eventId) {
+        Event event = eventRepository.findById(eventId)
+                .orElseThrow(() -> new IllegalArgumentException("Evento não encontrado."));
+
+        if (event.isClosed()) {
+            throw new IllegalArgumentException("Este evento já foi fechado anteriormente.");
+        }
+
+        event.setClosed(true); // O método setClosed agora é garantido
+        eventRepository.save(event);
     }
 
     public EventResponseDTO createEvent(EventRequestDTO dto) {

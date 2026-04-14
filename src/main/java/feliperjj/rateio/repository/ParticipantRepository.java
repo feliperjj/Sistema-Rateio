@@ -9,6 +9,7 @@ import java.util.UUID;
 public interface ParticipantRepository extends JpaRepository<Participant, UUID> {
     // Para listar todos os participantes de um evento específico
     List<Participant> findByEventId(UUID eventId);
+  
     
     // Para verificar se um utilizador já está num evento
     Optional<Participant> findByEventIdAndUserId(UUID eventId, UUID userId);

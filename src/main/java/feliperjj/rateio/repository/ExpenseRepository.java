@@ -6,6 +6,7 @@ import java.util.List;
 import java.util.UUID;
 
 public interface ExpenseRepository extends JpaRepository<Expense, UUID> {
-    // Para procurar todas as despesas associadas a um evento
+    
     List<Expense> findByEventId(UUID eventId);
+    
 }

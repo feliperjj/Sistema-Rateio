@@ -19,12 +19,12 @@ public class SecurityConfig {
                 .requestMatchers("/v3/api-docs/**", "/swagger-ui/**", "/swagger-ui.html").permitAll()
                 
                 // 👇 AGORA COM EVENTOS E DESPESAS LIBERADOS 👇
-                .requestMatchers(
-        "/api/users/register", 
-        "/api/events", "/api/events/**",
-        "/api/expenses", "/api/expenses/**",
-        "/api/participants", "/api/participants/**" // 
-            ).permitAll() 
+         .requestMatchers(
+                    "/api/users/register", 
+                    "/api/events", "/api/events/**",
+                    "/api/expenses", "/api/expenses/**",
+                    "/api/participants", "/api/participants/**"
+                ).permitAll()
                 
                 .anyRequest().authenticated()
             );
