@@ -1,20 +1,11 @@
 package feliperjj.rateio.domain;
 
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
-
 import java.math.BigDecimal;
 import java.util.UUID;
 
 @Entity
 @Table(name = "expenses")
-@Getter
-@Setter
-@NoArgsConstructor
-@AllArgsConstructor
 public class Expense {
 
     @Id
@@ -22,16 +13,27 @@ public class Expense {
     private UUID id;
 
     private String description;
-
     private BigDecimal amount;
 
-    // A anotação @ManyToOne diz que "Muitas despesas podem pertencer a Um pagador"
     @ManyToOne
     @JoinColumn(name = "paid_by_id")
     private User payer;
 
-    // A anotação @ManyToOne diz que "Muitas despesas podem pertencer a Um evento"
     @ManyToOne
     @JoinColumn(name = "event_id")
     private Event event;
+
+    public Expense() {}
+
+    // Getters e Setters Manuais
+    public UUID getId() { return id; }
+    public void setId(UUID id) { this.id = id; }
+    public String getDescription() { return description; }
+    public void setDescription(String description) { this.description = description; }
+    public BigDecimal getAmount() { return amount; }
+    public void setAmount(BigDecimal amount) { this.amount = amount; }
+    public User getPayer() { return payer; }
+    public void setPayer(User payer) { this.payer = payer; }
+    public Event getEvent() { return event; }
+    public void setEvent(Event event) { this.event = event; }
 }

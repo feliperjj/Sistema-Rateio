@@ -3,19 +3,10 @@ package feliperjj.rateio.domain;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
-
 import java.util.UUID;
 
 @Entity
-@Table(name = "users") // 'user' é palavra reservada no Postgres, usamos 'users'
-@Getter
-@Setter
-@NoArgsConstructor
-@AllArgsConstructor
+@Table(name = "users")
 public class User {
 
     @Id
@@ -33,4 +24,15 @@ public class User {
     @NotBlank(message = "A password é obrigatória")
     private String passwordHash;
 
+    public User() {}
+
+    // Getters e Setters Manuais
+    public UUID getId() { return id; }
+    public void setId(UUID id) { this.id = id; }
+    public String getName() { return name; }
+    public void setName(String name) { this.name = name; }
+    public String getEmail() { return email; }
+    public void setEmail(String email) { this.email = email; }
+    public String getPasswordHash() { return passwordHash; }
+    public void setPasswordHash(String passwordHash) { this.passwordHash = passwordHash; }
 }

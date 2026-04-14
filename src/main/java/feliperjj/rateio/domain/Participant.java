@@ -1,21 +1,12 @@
 package feliperjj.rateio.domain;
 
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
-
 import java.util.UUID;
 
 @Entity
 @Table(name = "participants", uniqueConstraints = {
     @UniqueConstraint(columnNames = {"event_id", "user_id"})
 })
-@Getter
-@Setter
-@NoArgsConstructor
-@AllArgsConstructor
 public class Participant {
 
     @Id
@@ -30,4 +21,13 @@ public class Participant {
     @JoinColumn(name = "user_id", nullable = false)
     private User user;
 
+    public Participant() {}
+
+    // Getters e Setters Manuais
+    public UUID getId() { return id; }
+    public void setId(UUID id) { this.id = id; }
+    public Event getEvent() { return event; }
+    public void setEvent(Event event) { this.event = event; }
+    public User getUser() { return user; }
+    public void setUser(User user) { this.user = user; }
 }

@@ -5,36 +5,35 @@ import feliperjj.rateio.dto.UserRegisterRequestDTO;
 import feliperjj.rateio.dto.UserResponseDTO;
 import feliperjj.rateio.repository.UserRepository;
 import org.springframework.stereotype.Service;
+// 👇 NOVO IMPORT AQUI 👇
+import org.springframework.security.crypto.password.PasswordEncoder;
 
 @Service
 public class UserService {
 
     private final UserRepository userRepository;
+    private final PasswordEncoder passwordEncoder; // 👈 1. Declarar o Encoder
 
-    // A injeção de dependências via construtor é a melhor prática no Spring
-    public UserService(UserRepository userRepository) {
+    // 👈 2. Injetar o Encoder no construtor
+    public UserService(UserRepository userRepository, PasswordEncoder passwordEncoder) {
         this.userRepository = userRepository;
+        this.passwordEncoder = passwordEncoder;
     }
 
     public UserResponseDTO register(UserRegisterRequestDTO dto) {
-        // 1. Regra de Negócio: Verificar se o e-mail já existe
         if (userRepository.findByEmail(dto.email()).isPresent()) {
             throw new IllegalArgumentException("Este e-mail já está registado.");
         }
 
-        // 2. Transformar o DTO numa Entidade
         User user = new User();
         user.setName(dto.name());
         user.setEmail(dto.email());
         
-        // NOTA: Por agora vamos guardar a password em texto limpo para testar o fluxo.
-        // No passo da Segurança, vamos substituir esta linha por um hash (BCrypt).
-        user.setPasswordHash(dto.password());
+        // 👈 3. A MÁGICA ACONTECE AQUI: A palavra-passe é codificada antes de ser guardada
+        user.setPasswordHash(passwordEncoder.encode(dto.password()));
 
-        // 3. Guardar na base de dados
         User savedUser = userRepository.save(user);
 
-        // 4. Devolver apenas os dados seguros (sem a password)
         return new UserResponseDTO(savedUser.getId(), savedUser.getName(), savedUser.getEmail());
     }
 }
