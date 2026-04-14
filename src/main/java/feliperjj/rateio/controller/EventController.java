@@ -21,9 +21,8 @@ public class EventController {
     public EventController(EventService eventService) {
         this.eventService = eventService;
     }
-
-    @PatchMapping("/{id}/close")
-    public ResponseEntity<Map<String, String>> closeEvent(@PathVariable UUID id) {
+@PatchMapping("/{id}/close")
+    public ResponseEntity<Map<String, String>> closeEvent(@PathVariable("id") UUID id) {
         eventService.closeEvent(id);
         Map<String, String> response = new HashMap<>();
         response.put("mensagem", "Evento fechado com sucesso!");

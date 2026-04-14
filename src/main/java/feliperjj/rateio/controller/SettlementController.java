@@ -18,8 +18,10 @@ public class SettlementController {
         this.settlementService = settlementService;
     }
 
+    // ANTES: public ResponseEntity<List<SettlementResponseDTO>> getSettlement(@PathVariable UUID eventId)
+    // DEPOIS 👇 (Coloque o "eventId" entre aspas)
     @GetMapping
-    public ResponseEntity<List<SettlementResponseDTO>> getSettlement(@PathVariable UUID eventId) {
+    public ResponseEntity<List<SettlementResponseDTO>> getSettlement(@PathVariable("eventId") UUID eventId) {
         List<SettlementResponseDTO> response = settlementService.calculateSettlement(eventId);
         return ResponseEntity.ok(response);
     }
