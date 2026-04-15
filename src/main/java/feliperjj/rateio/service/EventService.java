@@ -34,21 +34,20 @@ public class EventService {
         eventRepository.save(event);
     }
 
-    public EventResponseDTO createEvent(EventRequestDTO dto) {
-        // 1. Procurar o utilizador criador na base de dados
-        User creator = userRepository.findById(dto.creatorId())
-                .orElseThrow(() -> new IllegalArgumentException("Utilizador não encontrado com o ID fornecido."));
+    public EventResponseDTO createEvent(EventRequestDTO dto, UUID creatorId) {
+        
+        User creator = userRepository.findById(creatorId)
+                .orElseThrow(() -> new IllegalArgumentException("Utilizador não encontrado."));
 
-        // 2. Transformar o DTO numa Entidade
         Event event = new Event();
         event.setName(dto.name());
         event.setDescription(dto.description());
         event.setCreator(creator);
+        
+        event.setClosed(false); // 👈 O evento nasce aberto
 
-        // 3. Guardar na base de dados
         Event savedEvent = eventRepository.save(event);
 
-        // 4. Devolver os dados formatados
         return new EventResponseDTO(
                 savedEvent.getId(),
                 savedEvent.getName(),
@@ -57,4 +56,4 @@ public class EventService {
                 creator.getName()
         );
     }
-}
+} // 👈 APENAS UMA CHAVE AQUI!

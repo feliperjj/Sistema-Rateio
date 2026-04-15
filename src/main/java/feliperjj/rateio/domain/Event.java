@@ -21,20 +21,50 @@ public class Event {
     @JoinColumn(name = "creator_id", nullable = false)
     private User creator;
 
-    @Column(nullable = false)
-    private boolean closed = false;
+    // A variável 'closed' precisa ser declarada aqui como as outras!
+    @Column(name = "is_closed", nullable = false)
+    private boolean closed = false; // Já deixamos como 'false' por padrão
 
     public Event() {}
 
     // Getters e Setters Manuais (Para garantir a compilação)
-    public UUID getId() { return id; }
-    public void setId(UUID id) { this.id = id; }
-    public String getName() { return name; }
-    public void setName(String name) { this.name = name; }
-    public String getDescription() { return description; }
-    public void setDescription(String description) { this.description = description; }
-    public User getCreator() { return creator; }
-    public void setCreator(User creator) { this.creator = creator; }
-    public boolean isClosed() { return closed; }
-    public void setClosed(boolean closed) { this.closed = closed; }
+    public UUID getId() { 
+        return id; 
+    }
+    
+    public void setId(UUID id) { 
+        this.id = id; 
+    }
+    
+    public String getName() { 
+        return name; 
+    }
+    
+    public void setName(String name) { 
+        this.name = name; 
+    }
+    
+    public String getDescription() { 
+        return description; 
+    }
+    
+    public void setDescription(String description) { 
+        this.description = description; 
+    }
+    
+    public User getCreator() { 
+        return creator; 
+    }
+    
+    public void setCreator(User creator) { 
+        this.creator = creator; 
+    }
+    
+    public boolean isClosed() { 
+        return closed; 
+    }
+    
+    public void setClosed(boolean closed) { 
+        this.closed = closed; 
+    }
 }

@@ -5,9 +5,7 @@ import java.util.UUID;
 
 public record ParticipantRequestDTO(
         @NotNull(message = "O ID do evento é obrigatório")
-        UUID eventId,
+        UUID eventId
         
-        @NotNull(message = "O ID do usuário é obrigatório")
-        UUID userId
-) {
-}
+        // 🚨 O userId FOI REMOVIDO DAQUI! 🚨
+) {}

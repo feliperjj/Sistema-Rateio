@@ -10,6 +10,8 @@ import feliperjj.rateio.repository.ExpenseRepository;
 import feliperjj.rateio.repository.UserRepository;
 import org.springframework.stereotype.Service;
 
+import java.util.UUID; // 👈 AQUI ESTÁ O IMPORT QUE FALTAVA!
+
 @Service
 public class ExpenseService {
 
@@ -23,26 +25,24 @@ public class ExpenseService {
         this.eventRepository = eventRepository;
     }
 
-    public ExpenseResponseDTO createExpense(ExpenseRequestDTO dto) {
-        // 1. Verificar se o utilizador (quem pagou) existe
-        User payer = userRepository.findById(dto.payerId())
+    // Adicionamos o UUID payerId como parâmetro
+    public ExpenseResponseDTO createExpense(ExpenseRequestDTO dto, UUID payerId) {
+        
+        // Agora usamos o payerId seguro
+        User payer = userRepository.findById(payerId)
                 .orElseThrow(() -> new IllegalArgumentException("Utilizador não encontrado."));
 
-        // 2. Verificar se o evento existe
         Event event = eventRepository.findById(dto.eventId())
                 .orElseThrow(() -> new IllegalArgumentException("Evento não encontrado."));
 
-        // 3. Criar a Despesa
         Expense expense = new Expense();
         expense.setDescription(dto.description());
         expense.setAmount(dto.amount());
         expense.setPayer(payer);
         expense.setEvent(event);
 
-        // 4. Guardar na Base de Dados
         Expense savedExpense = expenseRepository.save(expense);
 
-        // 5. Devolver os dados formatados
         return new ExpenseResponseDTO(
                 savedExpense.getId(),
                 savedExpense.getDescription(),

@@ -6,10 +6,9 @@ import feliperjj.rateio.service.EventService;
 import jakarta.validation.Valid;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.HashMap;
-import java.util.Map;
 import java.util.UUID;
 
 @RestController
@@ -21,17 +20,23 @@ public class EventController {
     public EventController(EventService eventService) {
         this.eventService = eventService;
     }
-@PatchMapping("/{id}/close")
-    public ResponseEntity<Map<String, String>> closeEvent(@PathVariable("id") UUID id) {
-        eventService.closeEvent(id);
-        Map<String, String> response = new HashMap<>();
-        response.put("mensagem", "Evento fechado com sucesso!");
-        return ResponseEntity.ok(response);
-    }
 
     @PostMapping
-    public ResponseEntity<EventResponseDTO> createEvent(@Valid @RequestBody EventRequestDTO requestDTO) {
-        EventResponseDTO response = eventService.createEvent(requestDTO);
+    public ResponseEntity<EventResponseDTO> createEvent(
+            @Valid @RequestBody EventRequestDTO requestDTO, 
+            Authentication authentication) {
+        
+        // O "Pulo do Gato": Extrai o ID do utilizador logado diretamente do Token JWT!
+        UUID creatorId = UUID.fromString((String) authentication.getPrincipal());
+        
+        EventResponseDTO response = eventService.createEvent(requestDTO, creatorId);
         return ResponseEntity.status(HttpStatus.CREATED).body(response);
+    }
+
+    // Rota para fechar o evento e calcular o rateio
+    @PatchMapping("/{id}/close")
+    public ResponseEntity<String> closeEvent(@PathVariable UUID id) {
+        eventService.closeEvent(id);
+        return ResponseEntity.ok("Evento fechado com sucesso. Cálculos de rateio gerados.");
     }
 }

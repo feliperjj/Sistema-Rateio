@@ -14,10 +14,8 @@ public record ExpenseRequestDTO(
         @Positive(message = "O valor deve ser maior que zero")
         BigDecimal amount,
         
-        @NotNull(message = "O ID de quem pagou é obrigatório")
-        UUID payerId,
+        // 🚨 O payerId FOI REMOVIDO DAQUI! 🚨
         
         @NotNull(message = "O ID do evento é obrigatório")
         UUID eventId
-) {
-}
+) {}
